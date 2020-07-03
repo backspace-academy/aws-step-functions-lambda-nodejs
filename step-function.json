@@ -1,5 +1,5 @@
 {
-    "Comment": "AWS Step Functions ordering porocess.",
+    "Comment": "A simple AWS Step Functions state machine that automates an ordering porocess.",
     "StartAt": "Receive Order",
     "States": {
       "Receive Order": {
@@ -9,7 +9,7 @@
       }, 
       "Check Stock": {
         "Type": "Task",
-        "Resource": "YOUR_ReceiveOrder_LAMBDA_ARN",
+        "Resource": "YOUR_CheckStock_LAMBDA_ARN",
         "Next": "Is Stock Available?"
       },       
       "Is Stock Available?": {
