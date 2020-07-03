@@ -1,0 +1,49 @@
+{
+    "Comment": "AWS Step Functions ordering porocess.",
+    "StartAt": "Receive Order",
+    "States": {
+      "Receive Order": {
+        "Type": "Task",
+        "Resource": "YOUR_ReceiveOrder_LAMBDA_ARN",
+        "Next": "Check Stock"
+      }, 
+      "Check Stock": {
+        "Type": "Task",
+        "Resource": "YOUR_ReceiveOrder_LAMBDA_ARN",
+        "Next": "Is Stock Available?"
+      },       
+      "Is Stock Available?": {
+          "Type" : "Choice",
+          "Choices": [ 
+            {
+              "Variable": "$.Status",
+              "NumericEquals": 1,
+              "Next": "Deliver Order"
+            },
+            {
+              "Variable": "$.Status",
+              "NumericEquals": 0,
+              "Next": "Order Stock"
+            }
+        ]
+      },
+      "Order Stock": {
+          "Type": "Task",
+            "Resource": "YOUR_OrderStock_LAMBDA_ARN",
+          "Next": "Fail"
+        },
+      "Deliver Order": {
+          "Type": "Task",
+          "Resource": "YOUR_DeliverOrder_LAMBDA_ARN",
+          "Next": "Bill Customer"
+      },
+      "Bill Customer": {
+        "Type": "Task",
+        "Resource": "YOUR_BillCustomer_LAMBDA_ARN",
+        "End": true
+    },      
+      "Fail": {
+          "Type": "Fail",
+          "Cause": "No stock available."    }   
+    }
+  }
