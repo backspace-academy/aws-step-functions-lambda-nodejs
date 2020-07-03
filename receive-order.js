@@ -2,7 +2,7 @@ exports.handler = async (event) => {
     var response;
     console.log('Function loaded successfully');
     try {
-        var orderID = event.orderID;
+        var orderID = event.Order;
         var tempStr = 'Order ' + orderID + ': has been received...';   
         response = {
             Order: orderID, 
